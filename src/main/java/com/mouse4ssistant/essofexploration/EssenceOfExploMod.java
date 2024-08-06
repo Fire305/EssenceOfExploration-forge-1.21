@@ -1,6 +1,9 @@
 package com.mouse4ssistant.essofexploration;
 
 import com.mojang.logging.LogUtils;
+import com.mouse4ssistant.essofexploration.item.ModItems;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -25,6 +28,9 @@ public class EssenceOfExploMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
+
+        ModItems.register(modEventBus);
+
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -37,7 +43,9 @@ public class EssenceOfExploMod
 
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-
+        if(event.getTabKey()== CreativeModeTabs.INGREDIENTS){
+            event.accept(ModItems.RUBY);
+        }
     }
 
     @SubscribeEvent
